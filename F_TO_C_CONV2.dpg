@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE FBDiag SYSTEM "DiagnosticElement.dtd">
+<FBDiag Name="F_TO_C_CONV2" Comment="Diagnostic information for F_TO_C_CONV ver 2">
+	<DPS>		
+		<DP Name="temp_C"/>		
+	</DPS>
+	<Diag>
+		<DiagTest>
+		   <Name>F_TO_C_CONV2</Name>
+			<Code>boolean status = true;</Code>
+			<Code>double testTemperatureF = 0;</Code>
+		</DiagTest>
+	</Diag>
+</FBDiag>

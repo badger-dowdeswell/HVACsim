@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=/usr/lib/jvm/java-11-openjdk-amd64/bin/java -Dfile.encoding=UTF-8 -classpath /home/badger/Development/Java/HVACsim/bin HVACsim.HVACsim 192.168.1.79 62501
+Icon=/home/badger/Development/Java/HVACsim/bin/symbIoTe.PNG
+Name=HVACsim
+Comment=HVAC Simulator 1.0
+GenericName[en_NZ]=HVAC simulator

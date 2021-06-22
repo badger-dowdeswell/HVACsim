@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE FBDiag SYSTEM "DiagnosticElement.dtd">
+<FBDiag Name="TEMPERATUREsim" Comment="Diagnostic information for TEMPERATUREsim ver 1">
+	<DPS>
+		<DP Name="READ"/>	
+		<DP Name="CNF_TEMP"/>
+		<DP Name="temp_F"/>
+		<DP Name="error_code"/>
+	</DPS>
+	<Diag>
+		<DiagTest>
+		   <Name>TEMPERATUREsim</Name>
+			<Code>boolean status = true;</Code>
+			<Code>double testTemperatureF = 0;</Code>
+		</DiagTest>
+	</Diag>
+</FBDiag>
+
+

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE System SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
+<System Comment="" Name="HVACsim">
+  <VersionInfo Author="Badger" Date="2021-04-25" Organization="AUT EMSOFT" Version="1.0"/>
+  <Application Comment="" Name="HVACsimApp">
+    <SubAppNetwork>
+      <FB Comment="" Name="F_TO_C_CONV" Type="F_TO_C_CONV2" x="2623.529411764706" y="2647.0588235294117">
+        <Parameter Name="TI" Value="RQ2"/>
+      </FB>
+      <FB Comment="" Name="TEMPERATURE" Type="TEMPERATUREsim" x="1305.8823529411764" y="2370.5882352941176">
+        <Parameter Name="address" Value="192.168.1.79"/>
+        <Parameter Name="port" Value="62501"/>
+        <Parameter Name="zone" Value="1"/>
+        <Parameter Name="TI" Value="RQ6 RQ7"/>
+      </FB>
+      <FB Comment="" Name="CONTROLLER_CYCLE" Type="E_CYCLE" x="3976.4705882352937" y="264.70588235294116">
+        <Parameter Name="DT" Value="T#150ms"/>
+      </FB>
+      <FB Comment="" Name="DISPLAY" Type="Z_DISPLAY3" x="5529.411764705882" y="1999.9999999999998">
+        <Parameter Name="address" Value="192.168.1.79"/>
+        <Parameter Name="port" Value="62501"/>
+        <Parameter Name="zone" Value="1"/>
+        <Parameter Name="TI" Value="RQ1 RQ2 RQ3 RQ6"/>
+      </FB>
+      <FB Comment="" Name="CONTROLLER" Type="Z_CONTROLLER3" x="3752.941176470588" y="1247.0588235294117">
+        <Parameter Name="TI" Value="RQ1 RQ2 RQ3 RQ4 RQ5 RQ6"/>
+      </FB>
+      <FB Comment="" Name="E_SWITCH_UP" Type="E_SWITCH" x="2352.9411764705883" y="235.2941176470588"/>
+      <FB Comment="" Name="E_SWITCH_DOWN" Type="E_SWITCH" x="2352.9411764705883" y="1176.4705882352941"/>
+      <FB Comment="" Name="SET_TEMP_UP" Type="SWITCHsim" x="1294.1176470588234" y="235.2941176470588">
+        <Parameter Name="address" Value="192.168.1.79"/>
+        <Parameter Name="port" Value="62501"/>
+        <Parameter Name="params" Value="1U"/>
+        <Parameter Name="TI" Value="RQ4"/>
+      </FB>
+      <FB Comment="" Name="SET_TEMP_DOWN" Type="SWITCHsim" x="1294.1176470588234" y="1176.4705882352941">
+        <Parameter Name="address" Value="192.168.1.79"/>
+        <Parameter Name="port" Value="62501"/>
+        <Parameter Name="params" Value="1D"/>
+        <Parameter Name="TI" Value="RQ5"/>
+      </FB>
+      <EventConnections>
+        <Connection Comment="" Destination="F_TO_C_CONV.REQ" Source="TEMPERATURE.CNF_TEMP" dx1="335.2941176470588"/>
+        <Connection Comment="" Destination="CONTROLLER.TEMP" Source="F_TO_C_CONV.CNF" dx1="70.58823529411764"/>
+        <Connection Comment="" Destination="CONTROLLER.ERROR" Source="TEMPERATURE.ERROR" dx1="129.41176470588235"/>
+        <Connection Comment="" Destination="DISPLAY.SHOW_TEMP" Source="CONTROLLER.CNF_TEMP" dx1="470.5882352941176"/>
+        <Connection Comment="" Destination="DISPLAY.SHOW_SET_TEMP" Source="CONTROLLER.CNF_SET_TEMP" dx1="394.1176470588235"/>
+        <Connection Comment="" Destination="DISPLAY.SHOW_MSG" Source="CONTROLLER.CNF_MSG" dx1="317.6470588235294"/>
+        <Connection Comment="" Destination="CONTROLLER.CYCLE" Source="CONTROLLER_CYCLE.EO" dx1="241.17647058823528" dx2="70.58823529411764" dy="623.5294117647059"/>
+        <Connection Comment="" Destination="TEMPERATURE.READ" Source="CONTROLLER.GET_TEMP" dx1="1511.764705882353" dx2="600.0" dy="2011.7647058823527"/>
+        <Connection Comment="" Destination="CONTROLLER.CMD_UP" Source="E_SWITCH_UP.EO1" dx1="300.0"/>
+        <Connection Comment="" Destination="CONTROLLER.CMD_DOWN" Source="E_SWITCH_DOWN.EO1" dx1="117.6470588235294"/>
+        <Connection Comment="" Destination="E_SWITCH_UP.EI" Source="SET_TEMP_UP.CNF" dx1="176.47058823529412"/>
+        <Connection Comment="" Destination="E_SWITCH_DOWN.EI" Source="SET_TEMP_DOWN.CNF" dx1="117.6470588235294"/>
+        <Connection Comment="" Destination="SET_TEMP_UP.READ" Source="CONTROLLER_CYCLE.EO" dx1="129.41176470588235" dx2="152.94117647058823" dy="-276.4705882352941"/>
+        <Connection Comment="" Destination="SET_TEMP_DOWN.READ" Source="CONTROLLER_CYCLE.EO" dx1="241.17647058823528" dx2="600.0" dy="-347.05882352941177"/>
+      </EventConnections>
+      <DataConnections>
+        <Connection Comment="" Destination="F_TO_C_CONV.temp_F" Source="TEMPERATURE.temp_F" dx1="335.2941176470588"/>
+        <Connection Comment="" Destination="CONTROLLER.temp_C" Source="F_TO_C_CONV.temp_C" dx1="247.05882352941174"/>
+        <Connection Comment="" Destination="CONTROLLER.error_code" Source="TEMPERATURE.error_code" dx1="217.6470588235294"/>
+        <Connection Comment="" Destination="DISPLAY.temp" Source="CONTROLLER.zone_temp" dx1="247.05882352941174"/>
+        <Connection Comment="" Destination="DISPLAY.set_temp" Source="CONTROLLER.set_zone_temp" dx1="158.8235294117647"/>
+        <Connection Comment="" Destination="DISPLAY.msg" Source="CONTROLLER.zone_msg" dx1="99.99999999999999"/>
+        <Connection Comment="" Destination="E_SWITCH_UP.G" Source="SET_TEMP_UP.in"/>
+        <Connection Comment="" Destination="E_SWITCH_DOWN.G" Source="SET_TEMP_DOWN.in"/>
+      </DataConnections>
+    </SubAppNetwork>
+  </Application>
+  <Device Comment="" Name="FORTE_PC" Type="FORTE_PC" x="2847.0588235294117" y="1405.8823529411764">
+    <Parameter Name="MGR_ID" Value="&quot;localhost:61499&quot;"/>
+    <Attribute Comment="device profile" Name="Profile" Type="STRING" Value="HOLOBLOC"/>
+    <Attribute Comment="color" Name="Color" Type="STRING" Value="138,226,52"/>
+    <Resource Comment="" Name="SIMULATOR" Type="EMB_RES" x="0.0" y="0.0">
+      <FBNetwork>
+        <FB Comment="" Name="F_TO_C_CONV" Type="F_TO_C_CONV2" x="2047.0588235294117" y="2458.8235294117644">
+          <Parameter Name="TI" Value="RQ2"/>
+        </FB>
+        <FB Comment="" Name="TEMPERATURE" Type="TEMPERATUREsim" x="605.8823529411765" y="2064.705882352941">
+          <Parameter Name="address" Value="192.168.1.79"/>
+          <Parameter Name="port" Value="62501"/>
+          <Parameter Name="zone" Value="1"/>
+          <Parameter Name="TI" Value="RQ6 RQ7"/>
+        </FB>
+        <FB Comment="" Name="CONTROLLER_CYCLE" Type="E_CYCLE" x="3011.7647058823527" y="41.17647058823529">
+          <Parameter Name="DT" Value="T#150ms"/>
+        </FB>
+        <FB Comment="" Name="DISPLAY" Type="Z_DISPLAY3" x="5464.7058823529405" y="2300.0">
+          <Parameter Name="address" Value="192.168.1.79"/>
+          <Parameter Name="port" Value="62501"/>
+          <Parameter Name="zone" Value="1"/>
+          <Parameter Name="TI" Value="RQ1 RQ2 RQ3 RQ6"/>
+        </FB>
+        <FB Comment="" Name="CONTROLLER" Type="Z_CONTROLLER3" x="3335.2941176470586" y="1088.235294117647">
+          <Parameter Name="TI" Value="RQ1 RQ2 RQ3 RQ4 RQ5 RQ6"/>
+        </FB>
+        <FB Comment="" Name="E_SWITCH_UP" Type="E_SWITCH" x="2523.529411764706" y="294.11764705882354"/>
+        <FB Comment="" Name="E_SWITCH_DOWN" Type="E_SWITCH" x="2500.0" y="958.8235294117646"/>
+        <FB Comment="" Name="SET_TEMP_UP" Type="SWITCHsim" x="1711.764705882353" y="394.1176470588235">
+          <Parameter Name="address" Value="192.168.1.79"/>
+          <Parameter Name="port" Value="62501"/>
+          <Parameter Name="params" Value="1U"/>
+          <Parameter Name="TI" Value="RQ4"/>
+        </FB>
+        <FB Comment="" Name="SET_TEMP_DOWN" Type="SWITCHsim" x="1594.1176470588234" y="1194.1176470588234">
+          <Parameter Name="address" Value="192.168.1.79"/>
+          <Parameter Name="port" Value="62501"/>
+          <Parameter Name="params" Value="1D"/>
+          <Parameter Name="TI" Value="RQ5"/>
+        </FB>
+        <EventConnections>
+          <Connection Comment="" Destination="F_TO_C_CONV.REQ" Source="TEMPERATURE.CNF_TEMP" dx1="423.52941176470586"/>
+          <Connection Comment="" Destination="CONTROLLER_CYCLE.START" Source="START.COLD" dx1="382.35294117647055"/>
+          <Connection Comment="" Destination="TEMPERATURE.INIT" Source="START.COLD" dx1="70.58823529411764" dx2="70.58823529411764" dy="1029.4117647058822"/>
+          <Connection Comment="" Destination="CONTROLLER_CYCLE.START" Source="START.WARM" dx1="294.11764705882354"/>
+          <Connection Comment="" Destination="TEMPERATURE.INIT" Source="START.WARM" dx1="70.58823529411764" dx2="70.58823529411764" dy="982.3529411764705"/>
+          <Connection Comment="" Destination="CONTROLLER.TEMP" Source="F_TO_C_CONV.CNF" dx1="294.11764705882354"/>
+          <Connection Comment="" Destination="CONTROLLER.ERROR" Source="TEMPERATURE.ERROR" dx1="194.1176470588235"/>
+          <Connection Comment="" Destination="DISPLAY.SHOW_TEMP" Source="CONTROLLER.CNF_TEMP" dx1="464.70588235294116"/>
+          <Connection Comment="" Destination="DISPLAY.SHOW_SET_TEMP" Source="CONTROLLER.CNF_SET_TEMP" dx1="464.70588235294116"/>
+          <Connection Comment="" Destination="DISPLAY.SHOW_MSG" Source="CONTROLLER.CNF_MSG" dx1="464.70588235294116"/>
+          <Connection Comment="" Destination="CONTROLLER.CYCLE" Source="CONTROLLER_CYCLE.EO" dx1="70.58823529411764" dx2="70.58823529411764" dy="570.5882352941176"/>
+          <Connection Comment="" Destination="TEMPERATURE.READ" Source="CONTROLLER.GET_TEMP" dx1="70.58823529411764" dx2="70.58823529411764" dy="-176.47058823529412"/>
+          <Connection Comment="" Destination="CONTROLLER.INIT" Source="START.COLD" dx1="1770.5882352941176"/>
+          <Connection Comment="" Destination="CONTROLLER.INIT" Source="START.WARM" dx1="1594.1176470588234"/>
+          <Connection Comment="" Destination="CONTROLLER.CMD_UP" Source="E_SWITCH_UP.EO1" dx1="99.99999999999999"/>
+          <Connection Comment="" Destination="CONTROLLER.CMD_DOWN" Source="E_SWITCH_DOWN.EO1" dx1="70.58823529411764" dx2="70.58823529411764" dy="211.76470588235293"/>
+          <Connection Comment="" Destination="E_SWITCH_UP.EI" Source="SET_TEMP_UP.CNF" dx1="176.47058823529412"/>
+          <Connection Comment="" Destination="E_SWITCH_DOWN.EI" Source="SET_TEMP_DOWN.CNF" dx1="147.05882352941177"/>
+          <Connection Comment="" Destination="SET_TEMP_UP.INIT" Source="START.COLD" dx1="476.4705882352941"/>
+          <Connection Comment="" Destination="SET_TEMP_UP.INIT" Source="START.WARM" dx1="694.1176470588235"/>
+          <Connection Comment="" Destination="SET_TEMP_DOWN.INIT" Source="START.COLD" dx1="464.70588235294116"/>
+          <Connection Comment="" Destination="SET_TEMP_DOWN.INIT" Source="START.WARM" dx1="376.4705882352941"/>
+          <Connection Comment="" Destination="SET_TEMP_UP.READ" Source="CONTROLLER_CYCLE.EO" dx1="70.58823529411764" dx2="70.58823529411764" dy="223.52941176470586"/>
+          <Connection Comment="" Destination="SET_TEMP_DOWN.READ" Source="CONTROLLER_CYCLE.EO" dx1="70.58823529411764" dx2="70.58823529411764" dy="623.5294117647059"/>
+        </EventConnections>
+        <DataConnections>
+          <Connection Comment="" Destination="F_TO_C_CONV.temp_F" Source="TEMPERATURE.temp_F" dx1="282.35294117647055"/>
+          <Connection Comment="" Destination="CONTROLLER.temp_C" Source="F_TO_C_CONV.temp_C" dx1="294.11764705882354"/>
+          <Connection Comment="" Destination="CONTROLLER.error_code" Source="TEMPERATURE.error_code" dx1="335.2941176470588"/>
+          <Connection Comment="" Destination="DISPLAY.temp" Source="CONTROLLER.zone_temp" dx1="464.70588235294116"/>
+          <Connection Comment="" Destination="DISPLAY.set_temp" Source="CONTROLLER.set_zone_temp" dx1="464.70588235294116"/>
+          <Connection Comment="" Destination="DISPLAY.msg" Source="CONTROLLER.zone_msg" dx1="464.70588235294116"/>
+          <Connection Comment="" Destination="E_SWITCH_UP.G" Source="SET_TEMP_UP.in" dx1="176.47058823529412"/>
+          <Connection Comment="" Destination="E_SWITCH_DOWN.G" Source="SET_TEMP_DOWN.in" dx1="147.05882352941177"/>
+        </DataConnections>
+      </FBNetwork>
+    </Resource>
+  </Device>
+  <Mapping From="HVACsimApp.F_TO_C_CONV" To="FORTE_PC.SIMULATOR.F_TO_C_CONV"/>
+  <Mapping From="HVACsimApp.TEMPERATURE" To="FORTE_PC.SIMULATOR.TEMPERATURE"/>
+  <Mapping From="HVACsimApp.CONTROLLER_CYCLE" To="FORTE_PC.SIMULATOR.CONTROLLER_CYCLE"/>
+  <Mapping From="HVACsimApp.DISPLAY" To="FORTE_PC.SIMULATOR.DISPLAY"/>
+  <Mapping From="HVACsimApp.CONTROLLER" To="FORTE_PC.SIMULATOR.CONTROLLER"/>
+  <Mapping From="HVACsimApp.E_SWITCH_UP" To="FORTE_PC.SIMULATOR.E_SWITCH_UP"/>
+  <Mapping From="HVACsimApp.E_SWITCH_DOWN" To="FORTE_PC.SIMULATOR.E_SWITCH_DOWN"/>
+  <Mapping From="HVACsimApp.SET_TEMP_UP" To="FORTE_PC.SIMULATOR.SET_TEMP_UP"/>
+  <Mapping From="HVACsimApp.SET_TEMP_DOWN" To="FORTE_PC.SIMULATOR.SET_TEMP_DOWN"/>
+  <Segment Comment="" Name="Ethernet" Type="Ethernet" dx1="1764.705882352941" x="3847.0588235294117" y="911.7647058823529">
+    <Attribute Comment="color" Name="Color" Type="STRING" Value="185,132,206"/>
+  </Segment>
+</System>
